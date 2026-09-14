@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.lightGreen),
       ),
-      home: const MyHomePage(title: 'Calculador de Bonus'),
+      home: const MyHomePage(title: 'Calculador de Bônus'),
     );
   }
 }
@@ -29,7 +29,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double bonus = 0.1;
+  double bonus = 0.05;
   String campo = '';
   String resultado = '';
 
@@ -61,19 +61,32 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  TextField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Digite o Seu salário:',
-                    ),
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      campo = value;
-                    }
+                  const SizedBox(height: 80),
+
+                  Image.asset(
+                      "assets/images/bonus.png",
+                      width: 300,
+                      height: 300,
                   ),
-                  
+
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Digite o seu salário:',
+                      ),
+                      onChanged: (value) {
+                        campo = value;
+                      },
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
                   ElevatedButton(
                     onPressed: _calcularBonus,
                     child: Text("Calcular"),
@@ -82,6 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       foregroundColor: Colors.white,
                     ),
                   ),
+                  const SizedBox(height: 10),
+
                   Text('O bônus é de: R\$ $resultado'),
                 ],
               ),
