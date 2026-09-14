@@ -10,11 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Calcula Bônus',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: .fromSeed(seedColor: Colors.lightGreen),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Calculador de Bonus'),
     );
   }
 }
@@ -29,11 +29,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  double bonus = 0.1;
+  String campo = '';
+  String resultado = '';
 
-  void _incrementCounter() {
+  void _calcularBonus() {
+    double? salario = double.tryParse(campo);
+
+    if (salario == null) {
+      setState(() {
+        resultado = 'Valor inválido';
+      });
+      return;
+    }
+
+    double calculo = salario * bonus;
     setState(() {
-      _counter++;
+      resultado = calculo.toString();
     });
   }
 
@@ -54,25 +66,28 @@ class _MyHomePageState extends State<MyHomePage> {
                   TextField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Se foda irmão',
+                      hintText: 'Digite o Seu salário:',
                     ),
-                    onSubmitted: (value) => print(value),
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      campo = value;
+                    }
                   ),
-
-                  Text(
-                    '$_counter',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                  
+                  ElevatedButton(
+                    onPressed: _calcularBonus,
+                    child: Text("Calcular"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.lightGreen,
+                      foregroundColor: Colors.white,
+                    ),
                   ),
+                  Text('O bônus é de: R\$ $resultado'),
                 ],
               ),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
